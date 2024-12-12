@@ -255,27 +255,33 @@ Now we only have to assign the RID=500 to thmuser3. To do so, we need to access 
 C:\tools\pstools> PsExec64.exe -i -s regedit
 ```
 
-From Regedit, we will go to **`HKLM\SAM\SAM\Domains\Account\Users\`** where there will be a key for each user in the machine. Since we want to modify thmuser3, we need to search for a key with its RID in hex (1010 = 0x3F2). Under the corresponding key, there will be a value called F, which holds the user's effective RID at position 0x30:
+From Regedit, we will go to **`HKLM\SAM\SAM\Domains\Account\Users\`** where there will be a key for each user in the machine. Since we want to modify thmuser3, we need to search for a key with its RID in hex (1010 = 0x3F2). Under the corresponding key, there will be a value called **`F`**, which holds the user's effective RID at position 0x30:
 
-RID hijacking 1
+|![image](https://github.com/user-attachments/assets/c72a8bfb-1965-4496-9ceb-95386f41304b)|
+|---|
+|RID hijacking 1|
 
 Notice the RID is stored using little-endian notation, so its bytes appear reversed.
 
 We will now replace those two bytes with the RID of Administrator in hex (500 = 0x01F4), switching around the bytes (F401):
 
-RID hijacking 2
+|![image](https://github.com/user-attachments/assets/3c8c949c-ecca-4cfb-a325-4b2515e3d579)|
+|---|
+|RID hijacking 2|
 
 The next time thmuser3 logs in, LSASS will associate it with the same RID as Administrator and grant them the same privileges.
 
 For this task, we assume you have already compromised the system and obtained the password for thmuser3. For your convenience, the user can connect via RDP with the following credentials:
 
-THM key
+```
 Username	thmuser3
 Password	Password321
+```
+
 If you did everything correctly, you should be logged in to the Administrator's desktop. 
 
 
-Note: When you log in via RDP, the existing in-browser view will be disconnected. After you terminate your RDP session you can get the in-browser view back by pressing Reconnect.
+**Note:** When you log in via RDP, the existing in-browser view will be disconnected. After you terminate your RDP session you can get the in-browser view back by pressing **Reconnect**.
 
-THM flag
-Log in to the machine via RDP using thmuser3 and execute C:\flags\flag3.exe to retrieve your flag.
+🎏🎏🎏
+✨🎊 Log in to the machine via RDP using thmuser3 and execute C:\flags\flag3.exe to retrieve your flag 🎏.
